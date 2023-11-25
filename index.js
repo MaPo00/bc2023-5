@@ -3,102 +3,112 @@ const multer = require('multer');
 const fs = require('fs');
 
 const app = express();
-const upload = multer({ dest: 'upload/' });
-const notesFilePath = 'notes.json';
-app.use(express.json());
+const port = 8000;
 
-// Створення JSON файлу, якщо його не існує
+app.use(express.json());
+const upload = multer();
+
+
+const notesFilePath = './notes.json';
+
+
 if (!fs.existsSync(notesFilePath)) {
-    fs.writeFileSync(notesFilePath, '[]', 'utf-8');
+  fs.writeFileSync(notesFilePath, JSON.stringify([]));
 }
 
+
 app.get('/', (req, res) => {
-    res.send('Сервер запущений.');
-});
-
-// Запит GET /notes
-app.get('/notes', (req, res) => {
-    if (fs.existsSync(notesFilePath)) {
-      const notes = JSON.parse(fs.readFileSync(notesFilePath, 'utf8'));
-      res.json(notes);
-    } else {
-      res.json([]);
-    }
+    const indexPath = './static/UploadForm.html'; 
+    res.sendFile(indexPath, { root: __dirname });
   });
+  
+  
 
-// Запит GET /UploadForm.html
-app.get('/UploadForm.html', (req, res) => {
-    res.sendFile(__dirname + '/static/UploadForm.html');
+app.get('/notes', (req, res) => {
+  const notes = JSON.parse(fs.readFileSync(notesFilePath, 'utf-8'));
+  res.json(notes);
 });
-    
-// Запит POST /upload
-app.post('/upload', upload.none(), (req, res) => {
+
+
+app.get('/UploadForm.html', (req, res) => {
+  const formPath = './static/UploadForm.html';
+  res.sendFile(formPath, { root: __dirname });
+});
+
+
+app.post('/upload', upload.fields([{ name: 'note_name' }, { name: 'note' }]), (req, res) => {
     const noteName = req.body.note_name;
     const noteText = req.body.note;
+  
+    const notesFilePath = './notes.json';
+    let notes = [];
+  
 
-    let notes = JSON.parse(fs.readFileSync(notesFilePath, 'utf8'));
-
-    if (notes.some((note) => note.note_name === noteName)) {
-        res.status(400).send('400: Нотатка з таким іменем уже існує.');
-    } else {
-        const newNote = { note_name: noteName, note_text: noteText };
-        notes.push(newNote);
-
-        fs.writeFileSync(notesFilePath, JSON.stringify(notes, null, 2), 'utf8');
-        res.status(201).send('201: Нотатка створена успішно.');
+    if (fs.existsSync(notesFilePath)) {
+      notes = JSON.parse(fs.readFileSync(notesFilePath, 'utf-8'));
     }
-});
-
-// Запит GET /notes/:noteName
-app.get('/notes/:noteName', (req, res) => {
-    const noteName = req.params.noteName;
-    const note = JSON.parse(fs.readFileSync(notesFilePath, 'utf8')); 
+  
     
-    const foundNote = note.find((data) => data.note_name === noteName);
-
-    if (foundNote) {
-        const textFromNote = foundNote.note_text.toString();
-        res.status(200).send(textFromNote);
-    } else {
-        res.status(404).send("404: Нотатки з таким іменем не існує.");
+    const existingNoteIndex = notes.findIndex((note) => note.note_name === noteName);
+  
+    if (existingNoteIndex !== -1) {
+      return res.status(400).send('Bad Request: Note with this name already exists');
     }
-    });
+  
+   
+    const newNote = { note_name: noteName, note: noteText };
+    notes.push(newNote);
+  
+    fs.writeFileSync(notesFilePath, JSON.stringify(notes, null, 2)); 
+  
+    res.status(201).send('Note uploaded successfully'); 
+  });
+  
 
-// Запит PUT /notes/:noteName
+app.get('/notes/:noteName', (req, res) => {
+  const noteName = req.params.noteName;
+  const notes = JSON.parse(fs.readFileSync(notesFilePath, 'utf-8'));
+
+  const requestedNote = notes.find((note) => note.note_name === noteName);
+
+  if (!requestedNote) {
+    return res.status(404).send('Note not found');
+  }
+
+  res.send(requestedNote.note);
+});
+
 app.put('/notes/:noteName', express.text(), (req, res) => {
-    const noteName = req.params.noteName;
-    const updatedNoteText = req.body;
+  const noteName = req.params.noteName;
+  const newText = req.body;
+  const notes = JSON.parse(fs.readFileSync(notesFilePath, 'utf-8'));
 
-    const notes = JSON.parse(fs.readFileSync(notesFilePath, 'utf8'));
-    const noteToUpdate = notes.find((data) => data.note_name === noteName);
+  const requestedNoteIndex = notes.findIndex((note) => note.note_name === noteName);
 
-    if (noteToUpdate) {
-        noteToUpdate.note_text = updatedNoteText; 
-        fs.writeFileSync(notesFilePath, JSON.stringify(notes, null, 2), 'utf8');
-        res.status(200).send('200: Нотатку оновлено успішно.');
-    } else {
-        res.status(404).send('404: Нотатки з таким іменем не існує.');
-    }
+  if (requestedNoteIndex === -1) {
+    return res.status(404).send('Note not found');
+  }
+
+
+  notes[requestedNoteIndex].note = newText;
+  fs.writeFileSync(notesFilePath, JSON.stringify(notes, null, 2));
+  
+
+  res.send('Note updated successfully');
 });
 
-// Запит DELETE /notes/:noteName
+
 app.delete('/notes/:noteName', (req, res) => {
-    const noteName = req.params.noteName;
+  const noteName = req.params.noteName;
+  const notes = JSON.parse(fs.readFileSync(notesFilePath, 'utf-8'));
 
-    let notes = JSON.parse(fs.readFileSync(notesFilePath, 'utf8'));
-    const noteIndex = notes.findIndex((data) => data.note_name === noteName);
+  const updatedNotes = notes.filter((note) => note.note_name !== noteName);
+  fs.writeFileSync(notesFilePath, JSON.stringify(updatedNotes, null, 2));
 
-    if (noteIndex !== -1) {
-        notes.splice(noteIndex, 1);
-        fs.writeFileSync(notesFilePath, JSON.stringify(notes, null, 2), 'utf8');
-        res.status(200).send('200: Нотатку видалено успішно.');
-    } else {
-        res.status(404).send('400: Нотатки з таким іменем не існує.');
-    }
+  res.send('Note deleted successfully');
 });
 
-// Запуск сервера
-const port = 8000;
+
 app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log(`Server is running on port ${port}`);
 });
