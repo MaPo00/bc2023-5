@@ -7,10 +7,21 @@
 	},
 	"item": [
 		{
-			"name": "notes",
+			"name": "GET /notes(усі нотатки)",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:8000/notes",
 					"protocol": "http",
@@ -26,10 +37,21 @@
 			"response": []
 		},
 		{
-			"name": "UploadForm",
+			"name": "GET /UploadForm.html(HTML форми для завантаження нотатки)",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:8000/UploadForm.html",
 					"protocol": "http",
@@ -45,21 +67,32 @@
 			"response": []
 		},
 		{
-			"name": "byRickAstley",
+			"name": "POST /upload",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
 						{
 							"key": "note_name",
-							"value": "byRickAstley",
+							"value": "note1",
 							"type": "text"
 						},
 						{
 							"key": "note",
-							"value": "Never Gonna Give You Up! \nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley",
+							"value": "notatka1",
 							"type": "text"
 						}
 					]
@@ -73,52 +106,48 @@
 					"port": "8000",
 					"path": [
 						"upload"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "no",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
+					],
+					"query": [
 						{
 							"key": "note_name",
-							"value": "no",
-							"type": "text"
+							"value": "note1",
+							"disabled": true
 						},
 						{
 							"key": "note",
-							"value": "huh",
-							"type": "text"
+							"value": "notatka1",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
 						}
 					]
-				},
-				"url": {
-					"raw": "http://localhost:8000/upload",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"upload"
-					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "byRickAstley",
+			"name": "GET /notes/<ім’я нотатки>",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8000/notes/byRickAstley",
+					"raw": "http://localhost:8000/notes/note1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -126,43 +155,23 @@
 					"port": "8000",
 					"path": [
 						"notes",
-						"byRickAstley"
+						"note1"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "no",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/notes/no",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"notes",
-						"no"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "no",
+			"name": "PUT /notes/<ім’я нотатки>",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "IT IS UPDATED.\n\n"
+					"raw": "noteUPD"
 				},
 				"url": {
-					"raw": "http://localhost:8000/notes/qqq",
+					"raw": "http://localhost:8000/notes/note1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -170,19 +179,30 @@
 					"port": "8000",
 					"path": [
 						"notes",
-						"qqq"
+						"note1"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "no",
+			"name": "DELETE /notes/<ім’я нотатки>",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8000/notes/no",
+					"raw": "http://localhost:8000/notes/note1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -190,7 +210,7 @@
 					"port": "8000",
 					"path": [
 						"notes",
-						"no"
+						"note1"
 					]
 				}
 			},
