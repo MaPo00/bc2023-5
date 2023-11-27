@@ -5,7 +5,7 @@
   },
   "name": "package.json",
   "version": "1.0.0",
-  "main": "lab5.js",
+  "main": "index.js",
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
