@@ -1,56 +1,51 @@
 {
 	"info": {
-		"_postman_id": "4849552e-480c-42a3-8f5b-6f202ac102a3",
-		"name": "My Service API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "30939825"
+		"_postman_id": "7337a781-bf68-49e4-aa11-91898f2a3f09",
+		"name": "lab_5a",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29769692"
 	},
 	"item": [
-		{
-			"name": "UploadForm.html",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "http://localhost:8000/UploadForm.html"
-			},
-			"response": []
-		},
 		{
 			"name": "notes",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8000/notes"
+				"url": {
+					"raw": "http://localhost:8000/notes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"notes"
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "post/upload",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 201 Created\", function () {\r",
-							"    pm.response.to.have.status(201);\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript"
-					}
+			"name": "UploadForm",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/UploadForm.html",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"UploadForm.html"
+					]
 				}
-			],
+			},
+			"response": []
+		},
+		{
+			"name": "byRickAstley",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -59,91 +54,145 @@
 					"formdata": [
 						{
 							"key": "note_name",
-							"value": "note",
+							"value": "byRickAstley",
 							"type": "text"
 						},
 						{
 							"key": "note",
-							"value": "dsnfhdsjbf",
+							"value": "Never Gonna Give You Up! \nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley",
 							"type": "text"
 						}
 					]
 				},
-				"url": "http://localhost:8000/upload"
+				"url": {
+					"raw": "http://localhost:8000/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"upload"
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "notes Copy",
+			"name": "no",
 			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "http://localhost:8000/notes"
-			},
-			"response": []
-		},
-		{
-			"name": "find note",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"url": "http://localhost:8000/notes/note"
-			},
-			"response": []
-		},
-		{
-			"name": "put/notes/mynotes",
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {}
-			},
-			"request": {
-				"method": "PUT",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
 						{
+							"key": "note_name",
+							"value": "no",
+							"type": "text"
+						},
+						{
 							"key": "note",
-							"value": "8",
+							"value": "huh",
 							"type": "text"
 						}
 					]
 				},
-				"url": "http://localhost:8000/notes/note"
+				"url": {
+					"raw": "http://localhost:8000/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"upload"
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "notes Copy",
+			"name": "byRickAstley",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "http://localhost:8000/notes"
+				"url": {
+					"raw": "http://localhost:8000/notes/byRickAstley",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"notes",
+						"byRickAstley"
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "delete/notes/mynotes",
+			"name": "no",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/notes/no",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"notes",
+						"no"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "no",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "IT IS UPDATED.\n\n"
+				},
+				"url": {
+					"raw": "http://localhost:8000/notes/qqq",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"notes",
+						"qqq"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "no",
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"url": "http://localhost:8000/notes/note"
-			},
-			"response": []
-		},
-		{
-			"name": "notes Copy",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "http://localhost:8000/notes"
+				"url": {
+					"raw": "http://localhost:8000/notes/no",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"notes",
+						"no"
+					]
+				}
 			},
 			"response": []
 		}
